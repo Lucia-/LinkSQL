@@ -15,29 +15,27 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class LPlayerSQL extends JavaPlugin implements Listener
 {
 	public static Plugin plugin;
-	private LCommand doCommand = new LCommand();
 
 	@Override
 	public void onEnable()
 	{
 		plugin = this;
 		saveDefaultConfig();
-		LTranslat.translat();
 		if (getConfig().getBoolean("use")) {
 			if (LSQL.openConnect()) {
-				getLogger().info(LTranslat.i);
+				getLogger().info(LPlayerSQL.plugin.getConfig().getString("Messages.SQLConnect"));
 				if (LSQL.createTables()) {
 					getServer().getPluginManager().registerEvents(this, this);
-					getLogger().info(LTranslat.j);
+					getLogger().info(LPlayerSQL.plugin.getConfig().getString("Messages.SQLConnect2"));
 					//Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + LTranslat.k);
 					//Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + LTranslat.l);
 				}
 				else {
-					getLogger().info("數據表驗證失敗");
+					getLogger().info(LPlayerSQL.plugin.getConfig().getString("Messages.SQLConnectError"));
 					setEnabled(false);
 				}
 				if (!LPlayer.lockAllPlayer()) {
-					getLogger().info("鎖定在線玩家數據失敗");
+					getLogger().info(LPlayerSQL.plugin.getConfig().getString("Messages.LockOnlinePlayerError"));
 				}
 				if (getConfig().getBoolean("daily.use")) {
 					LThread dailySaveThread = new LThread();
@@ -45,12 +43,12 @@ public class LPlayerSQL extends JavaPlugin implements Listener
 				}
 			}
 			else {
-				getLogger().info(LTranslat.m);
+				getLogger().info(LPlayerSQL.plugin.getConfig().getString("Messages.SQLConnectError2"));
 				setEnabled(false);
 			}
 		}
 		else {
-			getLogger().info(LTranslat.n);
+			getLogger().info(LPlayerSQL.plugin.getConfig().getString("Messages.NoSetConfig"));
 			setEnabled(false);
 		}
 	}
@@ -63,13 +61,13 @@ public class LPlayerSQL extends JavaPlugin implements Listener
 		}
 		if (LSQL.openConnect()) {
 			if (LPlayer.saveAllPlayer() && LPlayer.unlockAllPlayer()) {
-				getLogger().info(LTranslat.a);
+				getLogger().info(LPlayerSQL.plugin.getConfig().getString("Messages.SaveOnlinePlayerComplate"));
 			}
 			if (LSQL.closeConnect()) {
-				getLogger().info("關閉數據庫連接成功");
+				getLogger().info(LPlayerSQL.plugin.getConfig().getString("Messages.DatabaseClose"));
 			}
 			else {
-				getLogger().info("關閉數據庫連接失敗");
+				getLogger().info(LPlayerSQL.plugin.getConfig().getString("Messages.DatabaseCloseError"));
 			}
 		}
 	}
@@ -77,9 +75,11 @@ public class LPlayerSQL extends JavaPlugin implements Listener
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
 	{
-		if (command.getName().equalsIgnoreCase("player")) {
-			return doCommand.onPlayer(sender, args);
-		}
+		/*if (command.getName().equalsIgnoreCase("lp reload") && sender.hasPermission("command.ex")) {
+			reloadConfig();
+		}else{
+			sender.sendMessage(LPlayerSQL.plugin.getConfig().getString("Messages.NoPermission"));
+		}*/
 		return true;
 	}
 
@@ -112,13 +112,13 @@ class PlayerQuitThread extends Thread
 	{
 		Plugin plugin = LPlayerSQL.plugin;
 		if (LPlayer.savePlayer(player)) {
-			plugin.getLogger().info(LTranslat.d + player.getName() + LTranslat.f);
+			plugin.getLogger().info(LPlayerSQL.plugin.getConfig().getString("Messages.SavePlayer") + " " + player.getName() + " " + LPlayerSQL.plugin.getConfig().getString("Messages.Ok")); //+ player.getName() +
 			if (!LPlayer.unlockPlayer(player)) {
-				plugin.getLogger().info("解鎖上線狀態 玩家 " + player.getName() + LTranslat.g);
+				plugin.getLogger().info(LPlayerSQL.plugin.getConfig().getString("Messages.UnlockPlayer") + " " + player.getName() + " " + LPlayerSQL.plugin.getConfig().getString("Messages.Error"));
 			}
 		}
 		else {
-			plugin.getLogger().info(LTranslat.d + player.getName() + LTranslat.g);
+			plugin.getLogger().info(LPlayerSQL.plugin.getConfig().getString("Messages.SavePlayer") + " " + player.getName() + " " + LPlayerSQL.plugin.getConfig().getString("Messages.Error"));
 		}
 	}
 }
@@ -142,15 +142,15 @@ class PlayerJoinThread extends Thread
 			e.printStackTrace();
 		}
 		if (LPlayer.loadPlayer(player)) {
-			LPlayerSQL.plugin.getLogger().info(LTranslat.e + player.getName() + LTranslat.f);
+			LPlayerSQL.plugin.getLogger().info(LPlayerSQL.plugin.getConfig().getString("Messages.LoadPlayer") + " " + player.getName() + " " + LPlayerSQL.plugin.getConfig().getString("Messages.Ok"));
 			if (!LPlayer.lockPlayer(player)) {
-				LPlayerSQL.plugin.getLogger().info("鎖定玩家 " + player.getName() + LTranslat.g);
+				LPlayerSQL.plugin.getLogger().info(LPlayerSQL.plugin.getConfig().getString("Messages.LockPlayer") + " " + player.getName() + " " + LPlayerSQL.plugin.getConfig().getString("Messages.Error"));
 			}
 		}
 		else {
-			player.sendMessage("自動載入資料失敗");
-			player.sendMessage("請聯繫管理員");
-			LPlayerSQL.plugin.getLogger().info(LTranslat.e + player.getName() + LTranslat.g);
+			player.sendMessage(LPlayerSQL.plugin.getConfig().getString("Messages.AutoSavePlayerError"));
+			//player.sendMessage("請聯繫管理員");
+			LPlayerSQL.plugin.getLogger().info(LPlayerSQL.plugin.getConfig().getString("Messages.LoadPlayer") + " " + player.getName() + " " + LPlayerSQL.plugin.getConfig().getString("Messages.Error"));
 		}
 	}
 

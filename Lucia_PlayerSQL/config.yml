@@ -1,6 +1,4 @@
 use: false
-english: false
-
 delay: 5
 
 daily:
@@ -8,10 +6,34 @@ daily:
   show: true
   delay: 240
   min: 5
-  
 mysql:
     addr: localhost
     port: 3306
     data: database
     user: user
     pass: password
+Messages:
+  NoPermission: 抱歉，你沒有這個權限。
+  SaveAllPlayer: 儲存完畢。
+  SQLConnect: 數據表連接成功。
+  SQLConnect2: 數據表驗證成功。
+  SQLConnectError: 數據庫連接失敗。
+  SQLConnectError2: 數據表連接失敗。
+  NoSetConfig: 你沒有設置設定檔。
+  LockOnlinePlayerError: 鎖定線上玩家數據表失敗。
+  SaveOnlinePlayerComplate: 儲存線上玩家資料完成。
+  DatabaseClose: 數據庫關閉完成。
+  DatabaseCloseError: 數據庫關閉異常。
+  SavePlayer: 保存玩家
+  UnlockPlayer: 解除玩家鎖定數據表
+  LoadPlayer: 讀取玩家
+  LockPlayer: 鎖定玩家數據表
+  AutoSavePlayerError: 自動儲存玩家數據庫失敗，請聯繫管理員。
+  SaveOnlinePlayerComplate2: 保存在線玩家結束。
+  PlayerDataLockStatusError: 玩家上線數據鎖定狀態異常。
+  SaveComplate: 成功保存了
+  Players: 位玩家。
+  Ok: 成功。
+  Error: 失敗。
+  Total: 保存進度
+  

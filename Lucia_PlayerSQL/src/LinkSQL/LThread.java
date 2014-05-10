@@ -1,7 +1,7 @@
 package LinkSQL;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+//import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class LThread extends Thread
@@ -23,19 +23,19 @@ public class LThread extends Thread
 				e.printStackTrace();
 			}
 			if (!LPlayerSQL.plugin.isEnabled()) {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.RED + LTranslat.a);
+				Bukkit.getConsoleSender().sendMessage(LPlayerSQL.plugin.getConfig().getString("Messages.SaveOnlinePlayerComplate2"));
 				return;
 			}
 			players = LPlayerSQL.plugin.getServer().getOnlinePlayers();
 			if (players.length > min) {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + LTranslat.b + players.length + LTranslat.c);
+				Bukkit.getConsoleSender().sendMessage(LPlayerSQL.plugin.getConfig().getString("Messages.SaveComplate") + players.length + LPlayerSQL.plugin.getConfig().getString("Messages.Players")); // + players.length + 
 				for (int i = 0; i < players.length; i++) {
 					if (!players[i].isOnline()) {
 						continue;
 					}
 					if (LPlayer.savePlayer(players[i]) && show) {
-						Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + LTranslat.d + players[i].getName() + LTranslat.f);
-						Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + LTranslat.o + (i + 1) + " / " + players.length);
+						Bukkit.getConsoleSender().sendMessage(LPlayerSQL.plugin.getConfig().getString("Messages.SavePlayer") + " " + players[i].getName() + " " + LPlayerSQL.plugin.getConfig().getString("Messages.Ok")); // + players[i].getName() + 
+						Bukkit.getConsoleSender().sendMessage(LPlayerSQL.plugin.getConfig().getString("Messages.Total") + " : " + (i + 1) + " / " + players.length);
 					}
 					try {
 						sleep(delay * 50);
@@ -44,7 +44,7 @@ public class LThread extends Thread
 						e.printStackTrace();
 					}
 					if (!LPlayerSQL.plugin.isEnabled()) {
-						Bukkit.getConsoleSender().sendMessage(ChatColor.RED + LTranslat.a);
+						Bukkit.getConsoleSender().sendMessage(LPlayerSQL.plugin.getConfig().getString("Messages.SaveOnlinePlayerComplate2"));
 						return;
 					}
 				}

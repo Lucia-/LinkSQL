@@ -1,13 +1,3 @@
 name: LinkSQL
 main: LinkSQL.LPlayerSQL
-version: 0.4
-commands:
-    player:
-        description:
-        usage: 
-        permission: linkSQL.admin
-        permission-message:
-permissions:
-    linkSQL.admin:
-        description: 
-        default: op
+version: 0.6

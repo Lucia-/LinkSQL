@@ -6,12 +6,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+//import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+
 import com.comphenix.protocol.utility.StreamSerializer;
 
 public class LPlayer
@@ -100,8 +101,8 @@ public class LPlayer
 			ResultSet resultSet = statement.executeQuery(sql);
 			if (resultSet.next()) {
 				if (resultSet.getInt(1) > 0) {
-					Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "玩家上線數據鎖定狀態異常");
-					player.sendMessage(ChatColor.RED + "玩家上線數據鎖定狀態異常");
+					Bukkit.getConsoleSender().sendMessage(LPlayerSQL.plugin.getConfig().getString("Messages.PlayerDataLockStatusError"));
+					player.sendMessage(LPlayerSQL.plugin.getConfig().getString("Messages.PlayerDataLockStatusError"));
 				}
 				double health = resultSet.getDouble(2);
 				int food = resultSet.getInt(3);
@@ -188,7 +189,7 @@ public class LPlayer
 		for (Player player : players) {
 			if (!lockPlayer(player)) {
 				b = false;
-				LPlayerSQL.plugin.getLogger().info("鎖定玩家 " + player.getName() + " 失敗");
+				LPlayerSQL.plugin.getLogger().info(LPlayerSQL.plugin.getConfig().getString("Messages.LockPlayer") + " " + player.getName() + " " + LPlayerSQL.plugin.getConfig().getString("Messages.Error"));
 			}
 		}
 		return b;
@@ -201,7 +202,7 @@ public class LPlayer
 		for (Player player : players) {
 			if (!unlockPlayer(player)) {
 				b = false;
-				LPlayerSQL.plugin.getLogger().info("解鎖玩家 " + player.getName() + " 失敗");
+				LPlayerSQL.plugin.getLogger().info(LPlayerSQL.plugin.getConfig().getString("Messages.UnlockPlayer") + " " + player.getName() + " " + LPlayerSQL.plugin.getConfig().getString("Messages.Error"));
 			}
 		}
 		return b;
@@ -214,7 +215,7 @@ public class LPlayer
 		for (Player player : players) {
 			if (!savePlayer(player)) {
 				b = false;
-				LPlayerSQL.plugin.getLogger().info("保存玩家 " + player.getName() + " 失敗");
+				LPlayerSQL.plugin.getLogger().info(LPlayerSQL.plugin.getConfig().getString("Messages.SavePlayer") + " " + player.getName() + " " + LPlayerSQL.plugin.getConfig().getString("Messages.Error"));
 			}
 		}
 		return b;
