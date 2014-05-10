@@ -1,0 +1,17 @@
+use: false
+english: false
+
+delay: 5
+
+daily:
+  use: true
+  show: true
+  delay: 240
+  min: 5
+  
+mysql:
+    addr: localhost
+    port: 3306
+    data: database
+    user: user
+    pass: password
